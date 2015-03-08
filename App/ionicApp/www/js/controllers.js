@@ -1,17 +1,50 @@
 angular.module('starter.controllers', [])
+	.factory('colors', function ($http, $q) {
+
+		return {
+			get: function(){
+				var deferred = $q.defer();
+				$http.get('http://localhost:3000/api/led').
+					success(function(data, status, headers, config) {
+						// this callback will be called asynchronously
+						// when the response is available
+						deferred.resolve(data);
+					}).
+					error(function(data, status, headers, config) {
+						// called asynchronously if an error occurs
+						// or server returns response with an error status.
+						deferred.reject(data);
+					});
+				return deferred.promise;
+			},
+			save : function(rgb){
+				var deferred = $q.defer();
+				$http.post('http://localhost:3000/api/led', {rgb:rgb}).
+					success(function(data, status, headers, config) {
+						// this callback will be called asynchronously
+						// when the response is available
+						deferred.resolve(data);
+					}).
+					error(function(data, status, headers, config) {
+						// called asynchronously if an error occurs
+						// or server returns response with an error status.
+						deferred.reject(data);
+					});
+			}
+		}
+	})
 
 .controller('DashCtrl', function($scope) {})
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
+.controller('ChatsCtrl', function($scope, colors) {
+		$scope.rgb = {r:125,g:125,b:125};
+		$scope.saveRGB = function(){
+			console.log('rgb', $scope.rgb);
+			colors.save($scope.rgb);
+		}
+
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
 
 .controller('AccountCtrl', function($scope) {
   $scope.settings = {

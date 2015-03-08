@@ -8,3 +8,11 @@ map {
 .scroll {
     height: 100%;
 }
+
+ion-item.color.picker {
+    border:none;
+}
+
+.item.color.picker {
+    border:none;
+}
