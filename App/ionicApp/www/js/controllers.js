@@ -1,5 +1,37 @@
 angular.module('starter.controllers', [])
 	.factory('colors', function ($http, $q) {
+		var access_token = 'f7256921a637b41ddcb2153cb4a58cdc5647bdf7';
+		var args = 1000;
+
+		function sparkFunction(fn){
+			var deferred = $q.defer();
+			console.log('SparFunction', fn);
+			//$http.post('spark/' + fn, {access_token:access_token, args:args}).
+
+				$http({
+					url: 'spark/' + fn +'?access_token='+access_token,
+					dataType: "json",
+					method: "POST",
+					headers: {
+						"Content-Type": "application/x-www-form-urlencoded",
+						"accessToken":'f7256921a637b41ddcb2153cb4a58cdc5647bdf7'
+					},
+					data: {accessToken:access_token, args:args}
+				}).
+				success(function(data, status, headers, config) {
+					console.log('data', data);
+					// this callback will be called asynchronously
+					// when the response is available
+					deferred.resolve(data);
+				}).
+				error(function(data, status, headers, config) {
+					console.log('data', data);
+					// called asynchronously if an error occurs
+					// or server returns response with an error status.
+					deferred.reject(data);
+				});
+			return deferred.promise;
+		}
 
 		return {
 			get: function(){
@@ -17,20 +49,27 @@ angular.module('starter.controllers', [])
 					});
 				return deferred.promise;
 			},
-			save : function(rgb){
-				var deferred = $q.defer();
-				$http.post('http://localhost:3000/api/led', {rgb:rgb}).
-					success(function(data, status, headers, config) {
-						// this callback will be called asynchronously
-						// when the response is available
-						deferred.resolve(data);
-					}).
-					error(function(data, status, headers, config) {
-						// called asynchronously if an error occurs
-						// or server returns response with an error status.
-						deferred.reject(data);
-					});
+			test : function(){
+				return sparkFunction('tests');
+
+			},
+			left : function(){
+				return sparkFunction('lefts');
+
+			},
+			right : function(){
+				return sparkFunction('rights');
+
+			},
+			stop : function(){
+				return sparkFunction('stops');
+
+			},
+			reg : function(){
+				return sparkFunction('regs');
+
 			}
+
 		}
 	})
 
@@ -49,10 +88,22 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('AccountCtrl', function($scope, colors) {
+
+
+		//$scope.$watch('ison', , true);
+		$scope.test = function(){
+
+				colors.test();
+
+		};
+
+		$scope.left = colors.left;
+		$scope.right = colors.right;
+		$scope.stop = colors.stop;
+		$scope.reg = colors.reg;
+
+
 })
 	.controller('MapCtrl', function($scope, $ionicLoading) {
 		$scope.mapCreated = function(map) {
