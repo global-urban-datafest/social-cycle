@@ -38,6 +38,9 @@ angular.module('starter.controllers', [])
 
 .controller('ChatsCtrl', function($scope, colors) {
 		$scope.rgb = {r:125,g:125,b:125};
+		$scope.$watch('$scope.rgb', function(){
+			console.dir($scope.rgb);
+		})
 		$scope.saveRGB = function(){
 			console.log('rgb', $scope.rgb);
 			colors.save($scope.rgb);

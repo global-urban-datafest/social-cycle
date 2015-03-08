@@ -16,3 +16,10 @@ ion-item.color.picker {
 .item.color.picker {
     border:none;
 }
+
+colorviewer {
+    display: block;
+    width: 100%;
+    height: 40px;
+    background-color: #009689 ;
+}
