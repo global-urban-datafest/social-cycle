@@ -3,7 +3,6 @@
 
 // How many leds in your strip?
 #define NUM_LEDS 132
-int intro = 500;
 // For led chips like Neopixels, which have a data line, ground, and power, you just
 // need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
 // ground, and power), like the LPD8806 define both DATA_PIN and CLOCK_PIN
@@ -43,7 +42,10 @@ int interval=2000;
 
 void setup() {
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-  
+  //Start static lights
+  for(int i=62;i<70;i++)
+    leds[i] = CRGB::Red;
+  FastLED.show();
   // sets the pins as outputs:
   pinMode(ledPin, OUTPUT);
   //Begin all serial connection for bluetooth and console or whatever
@@ -73,7 +75,7 @@ void loop() {
     if(temp >= '0' && temp <= '5')
     {
       modeSwitch(temp);
-    }
+    } 
   }
   
   //If a character is sent from computer, read it
@@ -99,6 +101,8 @@ void modeSwitch(char temp)
   }
 
   //filter to see if a change is required
+  //compare the order received to the available settings and then
+  //update the variables to that this setting is saved
   if(temp == moving)
   {
     if(!modesActive[0]){
@@ -155,6 +159,7 @@ void modeSwitch(char temp)
   }
   if(modesJustSwitched[0] || modesJustSwitched[1] || modesJustSwitched[2])
   {
+    //if any changes have happened, register this change
     for(int i=0; i<3; i++)
     {
       modesState[i]=0;
@@ -190,8 +195,8 @@ void ledUpdate()
   }
 }
 
-//Case '0'
-//this just flashes the rear light (default mode)
+//Delegates all operations required for switching between brake lights and
+//regular flashing light
 void flash(){
   if(modesJustSwitched[0])
   {
@@ -210,13 +215,15 @@ void flash(){
 }
 
 void brakeOff(){
-  //Brake-off sequence
+  //Sequence for when you start moving again after being stopped
+  //After this the default flashing sequence is restarted
   if(modesState[0]==0){
     modesNextTransition[0]=millis()+50;
     modesState[0]++;
-    for(int i=52;i<80;i++)
+    for(int i=53;i<79;i++)
       leds[i] = CRGB::Red;
-    FastLED.show();
+    leds[79] = CRGB::Black;    // Here Dave, I had put 80 here instead of 79. That was the problem.
+    leds[52] = CRGB::Black;
     leds[78] = CRGB::Black;
     leds[53] = CRGB::Black;
     FastLED.show();
@@ -282,13 +289,15 @@ void brakeOff(){
 
 void brakeOn()
 {
+  //Sequence for when brakes engaged, before spine flashing sequence is engaged
   //brake light, these lights animate up the spine like carnival strong man hammer thing, if you can imagine
   if(modesState[0]==0){
     modesNextTransition[0]=millis()+50;
     modesState[0]++;
-    for(int i=52;i<80;i++)
+    for(int i=53;i<79;i++)
       leds[i] = CRGB::Black;
-    FastLED.show();
+    for(int i=62;i<70;i++)
+      leds[i] = CRGB::Red;
     leds[70] = CRGB::Red;
     leds[61] = CRGB::Red;
     FastLED.show();
@@ -354,6 +363,7 @@ void brakeOn()
 
 void defaultFlash()
 {
+  //The regular slashing sequence
   modesNextTransition[0]=millis()+500;
   if(modesState[0]==0){
     modesState[0]=1;
@@ -391,8 +401,10 @@ void brakeFlash(){
 void left()
 {    
   //LEFT INDICATION
-  if(modesJustSwitched[1] && (!modesActive[1]))
+  
+  if(!modesActive[1])
   {
+    //Turn all lights off
     modesNextTransition[1]=millis()+10000;
     for(int i=80; i<NUM_LEDS;i++)
       leds[i] = CRGB::Black;
@@ -546,8 +558,11 @@ void left()
 //all start with the rear light off and end with it on.
 
 void right(){
-  if(modesJustSwitched[2] && (!modesActive[2]))
+  //Right indication
+  
+  if(!modesActive[2])
   {
+    //turn indicator off
     modesNextTransition[2]=millis()+10000;
     for(int i=0; i<51;i++)
       leds[i] = CRGB::Black;
@@ -555,6 +570,7 @@ void right(){
   }
   else
   {
+    //turn indicator on
     if(modesState[2]==0)
     {
       modesNextTransition[2]=millis()+500;
