@@ -10,16 +10,24 @@
       <div class="list">
         <label class="item item-input">
           <span class="input-label">origin</span>
-          <input type="text" g-places-autocomplete ng-model="route.origin">
+          <input type="text" ng-model="route.origin">
         </label>
+	      <label ng-repeat="waypoint in route.waypoints" class="item item-input">
+		      <span class="input-label">WayPoint {{$index + 1}}</span>
+		      <input type="text" ng-model="waypoint.location">
+	      </label>
         <label class="item item-input">
           <span class="input-label">Destination</span>
           <input type="text" ng-model="route.destination">
         </label>
+	      <label class="item">
+		      <button class="button button-block button-positive" ng-click="addWayPoint()" type="button">Add Waypoint</button>
+	      </label>
         <label class="item">
           <button class="button button-block button-positive" type="submit">Go</button>
         </label>
       </div>
     </form>
+
   </ion-content>
 </ion-modal-view>

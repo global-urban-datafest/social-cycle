@@ -1,8 +1,21 @@
 <ion-view view-title="Route">
 	<ion-content id="direction-map-content-view">
-		<directions-map ready='isReady' class="front" destination="destination"
+		<!--<directions-map ready='isReady' class="front" destination="destination"
 		                origin="origin" >
 			<div class="map" id="map-canvas"></div>
-		</directions-map>
+		</directions-map>-->
 
+		<directions-map ng-if="isReady" ng-show="!showMap" ready='isReady' destination="destination"
+		                 origin="origin", waypoints="waypoints">
+			<div class="map" id="map-canvas"></div>
+		</directions-map>
+		<directions-text ng-if="isReady" ng-show="showMap" ready='isReady' destination="destination"
+		                 origin="origin", waypoints="waypoints"></directions-text>
+
+		</ion-content>
+	<ion-footer-bar class="bar-stable">
+		<a ng-click="setRoute()" class="button button-icon icon ion-navigate"></a>
+		<a ng-click="displayMap(true)" class="button button-icon icon ion-map"></a>
+		<a ng-click="displayMap(false)" class="button button-icon icon ion-ios-list"></a>
+	</ion-footer-bar>
 </ion-view>

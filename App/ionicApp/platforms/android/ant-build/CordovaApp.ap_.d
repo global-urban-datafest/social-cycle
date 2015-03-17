@@ -43,6 +43,9 @@
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/js/app.js \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/js/controllers.js \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/js/directives.js \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/js/route.controller.js \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/js/route.directives.js \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/js/route.factory.js \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/js/services.js \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/lib/ionic \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/lib/ionic/css \
@@ -79,9 +82,13 @@
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/plugins/com.ionic.keyboard/www/keyboard.js \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/plugins/org.apache.cordova.device/www \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/plugins/org.apache.cordova.device/www/device.js \
-/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tab-account.html \
-/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tab-chats.html \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/direction.modal.html \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/directiveTemplates \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tab-color.html \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tab-dash.html \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tab-directions.html \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tab-map.html \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tab-route.html \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/tabs.html \
+/Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/assets/www/templates/directiveTemplates/directions.template.html \
 /Users/John/Projects/fablab/social-cycle/App/ionicApp/platforms/android/ant-build/AndroidManifest.xml \

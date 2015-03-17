@@ -1,4 +1,4 @@
-angular.module('socialCycle.controllers', [])
+angular.module('socialCycle.controllers', ['route'])
 
 	.controller('DashCtrl', function ($scope) {
 	})
@@ -14,7 +14,8 @@ angular.module('socialCycle.controllers', [])
 		}
 
 	})
-	.controller('DirectionsCtrl', function ($scope, colorsFactory) {
+	// END :ColorCtrl
+	.controller('DirectionsCtrl', function ($scope, $interval, colorsFactory, GeoLocation) {
 
 		$scope.test = function () {
 
@@ -27,7 +28,40 @@ angular.module('socialCycle.controllers', [])
 		$scope.stop = colorsFactory.stop;
 		$scope.reg = colorsFactory.reg;
 
+		$scope.currentLocation = null;
+		var getLocationInterval;
+
+		function updateLocation(){
+			if(angular.isDefined(getLocationInterval)) return;
+
+			getLocationInterval = $interval(function(){
+				GeoLocation.getCurrentLocation()
+				.then(function(pos){
+					$scope.currentLocation = pos;
+						//console.dir(pos);
+				}, function(err){
+					console.error(err);
+				});
+			}, 1000)
+
+		}
+
+		function stopUpdatingLocation(){
+			if(angular.isDefined(getLocationInterval)){
+				$interval.cancel(getLocationInterval);
+				getLocationInterval = undefined;
+			}
+		}
+
+		$scope.$on('$destroy', function() {
+			// Make sure that the interval is destroyed too
+			stopUpdatingLocation();
+		});
+		updateLocation();
+
 	})
+	// END: DirectionsCtrl
+
 	.controller('MapCtrl', function ($scope, $ionicLoading) {
 		$scope.mapCreated = function (map) {
 			$scope.map = map;

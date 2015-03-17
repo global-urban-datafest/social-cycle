@@ -33,5 +33,14 @@
 
 		  </div>
 	  </div>
+	  <div class="row">
+		  <div class="col">
+			  date: {{currentLocation.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}<br/>
+			  latitude: {{currentLocation.coords.latitude}}<br/>
+			  longitude: {{currentLocation.coords.longitude}}<br/>
+			  speed: {{currentLocation.coords.speed}}<br/>
+		  </div>
+	  </div>
+
   </ion-content>
 </ion-view>

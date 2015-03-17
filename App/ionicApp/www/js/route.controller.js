@@ -1,6 +1,7 @@
 angular.module('socialCycle.controllers')
 	.controller('RouteCtrl', function ($scope, $ionicModal, $timeout) {
 		$scope.isReady = false;
+		$scope.showMap = false;
 	/*	var viewIds = ['direction-map-content-view', 'direction-text-content-view'];
 		$scope.switchView = function (id) {
 			console.log('switch to ', id);
@@ -30,11 +31,26 @@ angular.module('socialCycle.controllers')
 			$scope.modal.show();
 		};
 
+		$scope.addWayPoint = function(){
+			if(!$scope.route.waypoints) $scope.route.waypoints = [];
+			$scope.route.waypoints.push({
+				location: "",
+				stopover: true
+			});
+
+
+		};
+		$scope.displayMap = function(display){
+			$scope.showMap = display;
+		};
+
 		// Perform the login action when the user submits the login form
 		$scope.calculateRoute = function () {
 
 			$scope.origin = $scope.route.origin;
 			$scope.destination = $scope.route.destination;
+			$scope.waypoints = $scope.route.waypoints;
+			console.dir($scope.route);
 			$scope.isReady = true;
 
 			// Simulate a login delay. Remove this and replace with your login

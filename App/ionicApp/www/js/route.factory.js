@@ -30,26 +30,27 @@ angular.module('route', [])
 			return route;
 		}
 
-		function calculateRoute(destination, origin, TravelMode) {
-			var deferred = $q.defer();
+		function calculateRoute(destination, origin, waypoints, TravelMode) {
 
-			/*var start;
-			if(!origin){
-				GeoLocation.getCurrentLocation()
-					.then(function(pos){
-						console.dir(pos);
-						start = pos;
-					})
-					.catch(function(err){
-						console.error(err);
-						// default to Dublin
-						start = new google.maps.LatLng(53.344103999999990000,-6.267493699999932000)
-					});
-			}*/
+			var deferred = $q.defer();
+			//var items = ["kilcock, co.kildare, ireland"];
+			var points = [];
+			if(waypoints && waypoints.length){
+				for (var i = 0; i < waypoints.length; i++) {
+					var address = waypoints[i].location;
+					if (address !== "") {
+						points.push({
+							location: address,
+							stopover: true
+						});
+					}
+				}
+			}
 
 			var request = {
 				origin: origin,
 				destination: destination,
+				waypoints: points,
 				travelMode: google.maps.TravelMode.BICYCLING //TravelMode ||
 			};
 
@@ -65,12 +66,25 @@ angular.module('route', [])
 
 		}
 
-		function getMapRoute(destination, origin){
-
+		function getMapRoute(destination, origin, waypoints){
 			var deferred = $q.defer();
+			/*var items = ["kilcock, co.kildare, ireland"];
+			var waypoints = [];
+			for (var i = 0; i < items.length; i++) {
+				var address = items[i];
+				if (address !== "") {
+					waypoints.push({
+						location: address,
+						stopover: true
+					});
+				}
+			}*/
+
+
 			var request = {
 				origin: origin,
 				destination: destination,
+				waypoints: waypoints,
 				travelMode: google.maps.TravelMode.BICYCLING //TravelMode ||
 			};
 
