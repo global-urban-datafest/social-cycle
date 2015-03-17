@@ -1,0 +1,25 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Set Route</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeModal()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form ng-submit="calculateRoute()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">origin</span>
+          <input type="text" g-places-autocomplete ng-model="route.origin">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Destination</span>
+          <input type="text" ng-model="route.destination">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Go</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

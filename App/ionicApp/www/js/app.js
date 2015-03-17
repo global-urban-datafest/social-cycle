@@ -1,4 +1,4 @@
-angular.module('socialCycle', ['ionic', 'socialCycle.services', 'socialCycle.directives', 'socialCycle.controllers'])
+angular.module('socialCycle', ['ionic', 'socialCycle.services', 'socialCycle.directives', 'socialCycle.controllers', 'route', 'directions.directives'])
 
 	.run(function ($ionicPlatform) {
 		$ionicPlatform.ready(function () {
@@ -52,6 +52,15 @@ angular.module('socialCycle', ['ionic', 'socialCycle.services', 'socialCycle.dir
 					'tab-directions': {
 						templateUrl: 'templates/tab-directions.html',
 						controller: 'DirectionsCtrl'
+					}
+				}
+			})
+			.state('tab.route', {
+				url: '/route',
+				views: {
+					'tab-route': {
+						templateUrl: 'templates/tab-route.html',
+						controller: 'RouteCtrl'
 					}
 				}
 			});
