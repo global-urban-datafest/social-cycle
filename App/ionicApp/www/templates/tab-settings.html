@@ -1,7 +1,7 @@
 <ion-view view-title="Color">
   <ion-content>
 
-      <ion-item class="color picker" type="item-text-wrap">
+     <!-- <ion-item class="color picker" type="item-text-wrap">
 	      <div class="item color picker range range-assertive">
 		      <i class="icon ion-ios7-sunny-outline"></i>
 		      <input type="range" name="volume" min="0" max="255" ng-model="rgb.r">
@@ -31,6 +31,33 @@
 	  <button class="button button-full button-positive" ng-click="saveRGB()">
 		  Set Color
 	  </button>
+	  </ion-item>-->
+	  <ion-item class="mood">
+		  <button class="button button-full button-positive" ng-click="getDevices()">
+			  Get Devices
+		  </button>
+	  </ion-item>
+	  <ion-item ng-repeat="device in devices">
+		  <div class="row" id="device_{{device.id}}}}">
+			  <div class="col col-80">
+				  <div class="row">
+					  <div class="col device info">{{device.name}}</div>
+
+				  </div>
+				  <div class="row">
+					  <div class="col device address">{{device.address}}</div>
+				  </div>
+			  </div>
+
+			  <div class="col col-20">
+				  <button class="button button-full button-positive ion-bluetooth" ng-disabled="currentDevice == device.address" ng-click="saveAddress(device.address)">
+				  </button>
+			  </div>
+		  </div>
+
+	  </ion-item>
+	  <ion-item>
+		  <div id="console"></div>
 	  </ion-item>
   </ion-content>
 </ion-view>

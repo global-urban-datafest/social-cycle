@@ -2,17 +2,7 @@ angular.module('socialCycle.controllers')
 	.controller('RouteCtrl', function ($scope, $ionicModal, $timeout) {
 		$scope.isReady = false;
 		$scope.showMap = false;
-	/*	var viewIds = ['direction-map-content-view', 'direction-text-content-view'];
-		$scope.switchView = function (id) {
-			console.log('switch to ', id);
-			viewIds.map(function (elemId, index) {
-				document.getElementById(elemId).style.display = 'none';
-				if (index === viewIds.length - 1) {
-					document.getElementById(id).style.display = 'block';
-				}
-			});
 
-		};*/
 		$scope.route = { isInit: false};
 		// Create the login modal that we will use later
 		$ionicModal.fromTemplateUrl('templates/direction.modal.html', {
@@ -47,8 +37,8 @@ angular.module('socialCycle.controllers')
 		// Perform the login action when the user submits the login form
 		$scope.calculateRoute = function () {
 
-			$scope.origin = $scope.route.origin;
-			$scope.destination = $scope.route.destination;
+			$scope.origin = $scope.route.origin || 'maynooth,co.kildare,ireland';
+			$scope.destination = $scope.route.destination || 'clane,co.kildare,ireland';
 			$scope.waypoints = $scope.route.waypoints;
 			console.dir($scope.route);
 			$scope.isReady = true;

@@ -26,7 +26,8 @@ angular.module('route', [])
 		var directionsService = new google.maps.DirectionsService();
 
 		var route = null;
-		function getRoute(){
+
+		function getRoute() {
 			return route;
 		}
 
@@ -35,7 +36,7 @@ angular.module('route', [])
 			var deferred = $q.defer();
 			//var items = ["kilcock, co.kildare, ireland"];
 			var points = [];
-			if(waypoints && waypoints.length){
+			if (waypoints && waypoints.length) {
 				for (var i = 0; i < waypoints.length; i++) {
 					var address = waypoints[i].location;
 					if (address !== "") {
@@ -66,34 +67,34 @@ angular.module('route', [])
 
 		}
 
-		function getMapRoute(destination, origin, waypoints){
+		function getMapRoute(destination, origin, waypoints) {
 			var deferred = $q.defer();
-			/*var items = ["kilcock, co.kildare, ireland"];
-			var waypoints = [];
-			for (var i = 0; i < items.length; i++) {
-				var address = items[i];
-				if (address !== "") {
-					waypoints.push({
-						location: address,
-						stopover: true
-					});
+			var points = [];
+			if (waypoints && waypoints.length) {
+				for (var i = 0; i < waypoints.length; i++) {
+					var address = waypoints[i].location;
+					if (address !== "") {
+						points.push({
+							location: address,
+							stopover: true
+						});
+					}
 				}
-			}*/
-
+			}
 
 			var request = {
 				origin: origin,
 				destination: destination,
-				waypoints: waypoints,
+				waypoints: points,
 				travelMode: google.maps.TravelMode.BICYCLING //TravelMode ||
 			};
 
 			directionsService.route(request, function (response, status) {
 
-				//route = response.routes[0];
+				route = response.routes[0];
 				//console.log('getMap', );
 
-				deferred.resolve({ response:response, status:status});
+				deferred.resolve({response: response, status: status});
 
 			});
 
@@ -102,9 +103,9 @@ angular.module('route', [])
 		}
 
 		return {
-			calculateRoute : calculateRoute,
-			getRoute : getRoute,
-			getMapRoute : getMapRoute
+			calculateRoute: calculateRoute,
+			getRoute: getRoute,
+			getMapRoute: getMapRoute
 		}
 
 	})
@@ -117,14 +118,40 @@ angular.module('route', [])
 
 			}, function (error) {
 				deferred.reject('Unable to get location: ' + error.message);
-			});
+			}, { enableHighAccuracy : true});
 
 			return deferred.promise;
 		};
 
-		return {
-			getCurrentLocation :getCurrentLocation
+		function distanceFromCurrentLocation(lat, lng){
+			var deferred = $q.defer();
+			navigator.geolocation.getCurrentPosition(
+				function(currentPosition) {
+					var latLngA = new google.maps.LatLng(currentPosition.coords.latitude,currentPosition.coords.longitude);
+					var latLngB = new google.maps.LatLng(lat, lng);
+					var distance = google.maps.geometry.spherical.computeDistanceBetween(latLngA, latLngB);
+					deferred.resolve(distance);
+				},
+				function(err) {
+					deferred.reject(err);
+				}
+			);
+			return deferred.promise;
 		}
 
+		function distanceFromPos(currentPos, pos){
+
+					var latLngA = new google.maps.LatLng(currentPosition.k,currentPosition.D);
+					var latLngB = new google.maps.LatLng(pos.k, pos.D);
+					var distance = google.maps.geometry.spherical.computeDistanceBetween(latLngA, latLngB);
+
+			return distance;
+		}
+
+
+		return {
+			getCurrentLocation: getCurrentLocation,
+			distanceFromPos : distanceFromPos
+		}
 
 	});

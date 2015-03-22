@@ -1,4 +1,4 @@
-<ion-view view-title="Account">
+<ion-view ng-init="init()" view-title="Account">
   <ion-content scroll="false">
     <ion-list>
 	    <button class="button button-block button-balanced icon ion-eye" ng-click="test()"> Test</button>
@@ -34,12 +34,22 @@
 		  </div>
 	  </div>
 	  <div class="row">
+		  <div ng-class="devicesaved? 'showBluetooth':'hideBluetooth' " class="button-icon ion-bluetooth"> Device Recognised</div>
+	  </div>
+	  <div class="row">
 		  <div class="col">
 			  date: {{currentLocation.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}<br/>
 			  latitude: {{currentLocation.coords.latitude}}<br/>
 			  longitude: {{currentLocation.coords.longitude}}<br/>
 			  speed: {{currentLocation.coords.speed}}<br/>
 		  </div>
+
+	  </div>
+	  <div class="row">
+		  <div class="col">
+			 route: {{route}}
+		  </div>
+
 	  </div>
 
   </ion-content>

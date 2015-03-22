@@ -12,7 +12,8 @@
 
 ###To Run on Devices
 1. Install cordova Plugins for running on devices
-    `cordova plugin add org.apache.cordova.geolocation`
+    - `cordova plugin add org.apache.cordova.geolocation`
+    - `cordova plugin add com.megster.cordova.bluetoothserial`
 2. Add the Platorms you wish to test on:
     - Android : 
         - install the Android Developer tools ( see https://developer.android.com/sdk/index.html)

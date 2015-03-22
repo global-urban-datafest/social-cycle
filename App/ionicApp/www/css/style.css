@@ -24,3 +24,11 @@ colorviewer {
     height: 40px;
     background-color: #009689 ;
 }
+
+div.showBluetooth {
+    display:block;
+}
+
+div.hideBluetooth {
+    display:none;
+}
