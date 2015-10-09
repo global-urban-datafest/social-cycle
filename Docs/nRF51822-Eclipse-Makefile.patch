@@ -1,0 +1,58 @@
+--- Makefile.orig	2015-10-08 22:54:18.000000000 +0100
++++ Makefile	2015-09-09 23:28:01.000000000 +0100
+@@ -110,7 +110,7 @@
+ CFLAGS += -DBLE_STACK_SUPPORT_REQD
+ CFLAGS += -mcpu=cortex-m0
+ CFLAGS += -mthumb -mabi=aapcs --std=gnu99
+-CFLAGS += -Wall -Werror -O3
++CFLAGS += -Wall -Werror -O0 -g3
+ CFLAGS += -mfloat-abi=soft
+ # keep every function in separate section. This will allow linker to dump unused functions
+ CFLAGS += -ffunction-sections -fdata-sections -fno-strict-aliasing
+@@ -176,6 +176,7 @@
+ # Create objects from C SRC files
+ $(OBJECT_DIRECTORY)/%.o: %.c
+ 	@echo Compiling file: $(notdir $<)
++	@echo arm-none-eabi-gcc $(CFLAGS) $(INC_PATHS) -c -o $@ $<
+ 	$(NO_ECHO)$(CC) $(CFLAGS) $(INC_PATHS) -c -o $@ $<
+ 
+ # Assemble files
+@@ -229,4 +230,35 @@
+ ## Flash softdevice
+ flash_softdevice: 
+ 	@echo Flashing: s110_softdevice.hex
+-	nrfjprog --reset --program ../../../../../../components/softdevice/s110/hex/s110_softdevice.hex
+\ No newline at end of file
++	nrfjprog --reset --program ../../../../../../components/softdevice/s110/hex/s110_softdevice.hex
++
++GDB_PORT_NUMBER := 9992
++
++FLASH_START_ADDR = $(shell $(OBJDUMP) -h         $(OUTPUT_BINARY_DIRECTORY)/nrf51422_xxac_s110.out -j .text | grep .text | awk '{print $$4}')
++
++JLINK_OPTS = -device nrf51822 -if swd -speed 4000
++JLINK_GDB_OPTS = -noir
++JLINK = JLinkExe $(JLINK_OPTS)
++JLINKD_GDB = JLinkGDBServer $(JLINK_GDB_OPTS)
++
++
++combine-hex:
++	srec_cat ../../../../../../components/softdevice/s110/hex/s110_softdevice.hex -intel $(OUTPUT_BINARY_DIRECTORY)/nrf51422_xxac_s110.hex -intel -o $(OUTPUT_BINARY_DIRECTORY)/hrs.hex -intel --line-length=44
++
++flash-jlink: flash.jlink
++	$(JLINK) flash.jlink
++
++flash.jlink:
++	printf "loadbin $(OUTPUT_BINARY_DIRECTORY)/hrs.hex 0\nr\ng\nexit\n" > flash.jlink
++
++erase-all: erase-all.jlink
++	$(JLINK) erase-all.jlink
++
++erase-all.jlink:
++	# Write to NVMC to enable erase, do erase all, wait for completion. reset
++	printf "w4 4001e504 2\nw4 4001e50c 1\nsleep 100\nr\nexit\n" > erase-all.jlink
++
++run-debug:
++	$(JLINKD_GDB) $(JLINK_OPTS) $(JLINK_GDB_OPTS) -port $(GDB_PORT_NUMBER)
++
++.PHONY:  flash-jlink flash.jlink erase-all erase-all.jlink run-debug
+\ No newline at end of file
